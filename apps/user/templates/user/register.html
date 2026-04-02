@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% block title %}Register{% endblock title %}
+
+
+<body>
+    {% block content %}
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="send">
+        </form>
+    {% endblock content %}
+</body>
+
+</html>

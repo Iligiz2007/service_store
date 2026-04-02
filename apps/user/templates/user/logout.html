@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% block content %}
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <h1>Выход</h1>
+    <input type="submit" value="exit">
+</form>
+{% endblock content %}
