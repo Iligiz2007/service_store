@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+
+{% block title %}Список задач{% endblock title %}
+
+{% block content %}
+    {% for  serv in service %}
+        <strong>{{ serv.title }}</strong>
+        <p>{{ serv.description }}</p>
+        <p>{{ serv.price}}р</p>
+        <hr>
+    {% endfor %}
+{% endblock content %}

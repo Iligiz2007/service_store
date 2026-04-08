@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.views.generic import CreateView,TemplateView
+from django.views.generic import CreateView,TemplateView,ListView
 from .forms import FormService
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,3 +19,10 @@ class ViewsService(LoginRequiredMixin,CreateView):
 
 class ViewsIndex(TemplateView):
     template_name = 'index.html'
+
+
+
+class ViewsListService(ListView):
+    model = Service
+    template_name = "shop/list_service.html"
+    context_object_name = "service"
