@@ -6,10 +6,12 @@ from django.core.validators import FileExtensionValidator
 class User(AbstractUser):
     username = models.CharField(max_length=50,unique=True,verbose_name="Имя пользователя",help_text="Ввидите имя пользователя")
     is_staff = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to="user_img/%Y/%m/%d/",validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg', 'png'))],default='5856.jpg',verbose_name="Аватарка")
-
-
-
+    avatar = models.ImageField(
+        upload_to="avatars/",
+        verbose_name="Аватарка",
+        default="avatars/5856.jpg"
+    )
+    
     def save(self,*args,**kwargs):
         if self.avatar:
             try:

@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+
+{% block title %}Аккаунт{% endblock title %}
+
+{% block content %}
+    <h1>Отладка аватара</h1>
+    
+    <p>1. Значение avatarka (строка): "{{ user_obj.avatarka }}"</p>
+    <p>2. Тип поля: {{ user_obj.avatarka|length }}</p>
+    <p>3. Есть ли файл: {% if user_obj.avatarka %} ДА {% else %} НЕТ {% endif %}</p>
+    <p>4. Имя файла: {{ user_obj.avatarka.name }}</p>
+    <p>5. URL: {{ user_obj.avatarka.url }}</p>
+    
+    <hr>
+    
+    <h2>Все данные пользователя:</h2>
+    <p>ID: {{ user_obj.id }}</p>
+    <p>Username: {{ user_obj.username }}</p>
+    <p>Email: {{ user_obj.email }}</p>
+    
+    <hr>
+    
+    <h2>Попытка вывести изображение:</h2>
+    <img src="{{ user_obj.avatar.url }}" alt="Аватар" width="150" onerror="this.onerror=null; this.alt='Ошибка загрузки';">
+{% endblock content %}

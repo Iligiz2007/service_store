@@ -3,9 +3,10 @@ from django.shortcuts import render,redirect
 from .forms import FormRegisterUser,FormLoginUser
 from django.urls  import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView
-from django.contrib.auth.mixins import UserPassesTestMixin
-
+from django.views.generic import CreateView,DetailView, TemplateView
+from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
+from .models import User
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
@@ -49,3 +50,10 @@ class ViewsLogout(UserPassesTestMixin,LogoutView):
     def handle_no_permission(self):
         return  redirect(reverse_lazy('home'))
 
+class ViewsDetailUser(LoginRequiredMixin, TemplateView):
+    template_name = 'user/detail_user.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_obj'] = self.request.user
+        return context
