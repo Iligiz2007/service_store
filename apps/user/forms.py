@@ -18,8 +18,8 @@ class FormRegisterUser(UserCreationForm):
 class FormLoginUser(AuthenticationForm):
     username = forms.CharField(max_length=100,
                                required=True,
-                               widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+                               widget=forms.TextInput())
     password = forms.CharField(max_length=50,
                                required=True,
-                               widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+                               widget=forms.PasswordInput())
     remember_me = forms.BooleanField(required=False)

@@ -1,17 +1,49 @@
 {% extends "index.html" %}
-{% block title %}Register{% endblock title %}
+{% block title %}Регистрация{% endblock title %}
 
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            
+            <div class="card bg-secondary">
+                <div class="card-body">
+                    <h2 class="text-light mb-4 text-center">Регистрация</h2>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Логин</label>
+                            <input type="text" name="username" class="form-control" placeholder="Введите ваш логин">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="example@mail.ru">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input type="password" name="password1" class="form-control" placeholder="Минимум 8 символов">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Подтверждение пароля</label>
+                            <input type="password" name="password2" class="form-control" placeholder="Введите пароль еще раз">
+                        </div>
 
-<body>
-    {% block content %}
-        <form method="post">
-            {% csrf_token %}
-            <table>
-                {{ form.as_table }}
-            </table>
-            <input type="submit" value="send">
-        </form>
-    {% endblock content %}
-</body>
+                        <div class="mb-3">
+                            <label class="form-label">Аватар</label>
+                            <input type="file" name="avatar" class="form-control" accept="image/*">
+                        </div>
 
-</html>
+                        <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}

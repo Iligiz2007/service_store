@@ -16,6 +16,9 @@ class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
     redirect_authenticated_user  = False
     def form_valid(self, form):
         service = form.save()
+        if 'avatar' in self.request.FILES:
+            service.avatar = self.request.FILES['avatar']
+            service.save()
         return super().form_valid(form)
     
     def test_func(self) -> bool | None:

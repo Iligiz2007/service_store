@@ -9,7 +9,7 @@ class User(AbstractUser):
     avatar = models.ImageField(
         upload_to="avatars/",
         verbose_name="Аватарка",
-        default="avatars/5856.jpg"
+        default="5856.jpg"
     )
     
     def save(self,*args,**kwargs):
