@@ -4,5 +4,5 @@ urlpatterns = [
     path('',ViewsRegisterUser.as_view(),name='register'),
     path('login/',ViewsLoginUser.as_view(),name='login'),
     path('logout/',ViewsLogout.as_view(),name='logout'),
-    path('my_account/',ViewsDetailUser.as_view(),name="detail_user"),
+    path('profile/<slug:slug>/',ViewsDetailUser.as_view(),name="detail_user"),
 ]

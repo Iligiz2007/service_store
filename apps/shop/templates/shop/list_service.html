@@ -16,7 +16,7 @@
                                     <a href="{% url 'detail_service' serv.pk %}" class="text-info">...читать далее</a>
                                 {% endif %}
                             </p>
-                            <a href="{% url 'detail_service' serv.pk %}" class="btn btn-primary mt-auto">Откликнуться</a>
+                            <a href="{% url 'detail_service' slug=serv.slug %}" class="btn btn-primary mt-auto">Откликнуться</a>
                         </div>
                     </div>
                 </div>

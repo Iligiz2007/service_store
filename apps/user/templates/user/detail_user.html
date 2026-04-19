@@ -3,26 +3,16 @@
 {% block title %}Мой профиль{% endblock title %}
 
 {% block content %}
-<h1>Профиль: {{ user_obj.username }}</h1>
-
-{% if user_obj.avatar %}
-    <p><img src="{{ user_obj.avatar.url }}" width="100"></p>
-{% else %}
-    <p><em>Аватар не загружен</em></p>
-{% endif %}
-
-<ul>
-    <li><strong>Логин:</strong> {{ user_obj.username }}</li>
-    <li><strong>Email:</strong> {{ user_obj.email }}</li>
-    <li><strong>Имя:</strong> {{ user_obj.first_name|default:"—" }}</li>
-    <li><strong>Фамилия:</strong> {{ user_obj.last_name|default:"—" }}</li>
-    <li><strong>Зарегистрирован:</strong> {{ user_obj.date_joined|date:"d.m.Y" }}</li>
-    <li><strong>Последний визит:</strong> {{ user_obj.last_login|date:"d.m.Y H:i" }}</li>
-</ul>
-
-<p>
-    <a href="#">✏️ Редактировать</a> |
-    <a href="#">🚪 Выйти</a>
-</p>
-
+<div class="container card bg-dark border-secondary text-light p-2">
+    <div class="row g-0">
+        <div class="col-md-1">
+            <img src="{{ profile.avatar.url }}" alt="Аватар пользователя" class="img-fluid rounded">
+        </div>
+        <div class="card-title col-md m-1">
+            <h5>Пользователь {{profile.user.username}}</h5>
+            <p>Описание {{profile.bio}}</p>
+            
+        </div>
+    </div>
+</div>
 {% endblock content %}

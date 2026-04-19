@@ -5,7 +5,7 @@ from django.urls  import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView,DetailView, TemplateView
 from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
-from .models import User
+from .models import User,Profile
 from django.shortcuts import get_object_or_404
 # Create your views here.
 
@@ -53,10 +53,8 @@ class ViewsLogout(UserPassesTestMixin,LogoutView):
     def handle_no_permission(self):
         return  redirect(reverse_lazy('home'))
 
-class ViewsDetailUser(LoginRequiredMixin, TemplateView):
+class ViewsDetailUser(LoginRequiredMixin, DetailView):
     template_name = 'user/detail_user.html'
+    model = Profile
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_obj'] = self.request.user
-        return context
+    context_object_name = 'profile'
