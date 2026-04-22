@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from .forms import FormRegisterUser,FormLoginUser
 from django.urls  import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView,DetailView, TemplateView
+from django.views.generic import CreateView,DetailView, TemplateView,UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from .models import User,Profile
 from django.shortcuts import get_object_or_404
@@ -58,3 +58,16 @@ class ViewsDetailUser(LoginRequiredMixin, DetailView):
     model = Profile
     
     context_object_name = 'profile'
+
+class ViewsUpdateUser(LoginRequiredMixin,UpdateView):
+    model = User
+    fields = ['username'] 
+    template_engine = ''
+class ViewsUpdateProfile(LoginRequiredMixin,UpdateView):
+    model = Profile
+    fields = ['bio','birth_date','avatar','birth_date']
+    template_name = 'user/update_profale.html'
+    context_object_name = 'profile'
+    
+    def get_object(self):
+        return self.request.user.profile
