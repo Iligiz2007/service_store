@@ -2,18 +2,34 @@
 {% block title %}Update{% endblock title %}
 
 {% block content %}
-<div class="container-fluid text-light">
-    <div class="row">
-        <form method="post">
-            <div>
-                <p>{{form.as_p}}</p>
-
-            </div>
-        </form>
+<div class="d-flex justify-content-center m-3">
+    <div class="card m-0 bg-dark border-secondary col-md-6">
+        <div class="card-body">  <!-- Используем card-body вместо container-fluid -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-4">  <!-- Увеличен отступ между полями -->
+                    <label class="form-label">Описание</label>
+                    <input type="text" name="bio" class="form-control" placeholder="Введите новое описание">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label">Дата рождения</label>
+                    <input type="date" name="birth_date" class="form-control">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="avatar" class="form-label">Аватар</label>
+                    <input type="file" name="avatar" class="form-control" accept="image/*">
+                </div>
+                
+                <div class="mt-4 pt-2">  <!-- Добавляем отступ сверху -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-
-
-
 {% endblock content %}

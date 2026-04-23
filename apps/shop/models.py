@@ -32,5 +32,3 @@ class Service(models.Model):
         unique_together = ['user', 'title']
         
 
-
-    

@@ -16,8 +16,10 @@
             {% else %}
             <p>Дата рождения: {{profile.birth_date}}</p>
             {% endif %}
-            
         </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'update_profile'%}" class="btn btn-primary col-6">Редактирвать профиль</a>
+            </div>
     </div>
 </div>
 {% endblock content %}

@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from .forms import FormRegisterUser,FormLoginUser
@@ -52,22 +53,30 @@ class ViewsLogout(UserPassesTestMixin,LogoutView):
     
     def handle_no_permission(self):
         return  redirect(reverse_lazy('home'))
+    
+class ViewsDetailProfileMy(LoginRequiredMixin,DetailView):
+    template_name = 'user/detail_myuser.html'
+    model = Profile
+    context_object_name = 'profile'
 
-class ViewsDetailUser(LoginRequiredMixin, DetailView):
+    def get_object(self):
+        return self.request.user.profile
+    
+class ViewsDetailProfile(LoginRequiredMixin, DetailView):
     template_name = 'user/detail_user.html'
     model = Profile
-    
     context_object_name = 'profile'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
 
-class ViewsUpdateUser(LoginRequiredMixin,UpdateView):
-    model = User
-    fields = ['username'] 
-    template_engine = ''
+
 class ViewsUpdateProfile(LoginRequiredMixin,UpdateView):
     model = Profile
-    fields = ['bio','birth_date','avatar','birth_date']
+    fields = ['bio','birth_date','avatar']
     template_name = 'user/update_profale.html'
     context_object_name = 'profile'
-    
+    success_url = reverse_lazy('detail_user_my')
+
+
     def get_object(self):
         return self.request.user.profile
