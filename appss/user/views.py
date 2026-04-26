@@ -72,7 +72,7 @@ class ViewsDetailProfile(LoginRequiredMixin, DetailView):
 
 class ViewsUpdateProfile(LoginRequiredMixin,UpdateView):
     model = Profile
-    fields = ['bio','birth_date','avatar']
+    fields = ['bio','birth_date','avatar','is_verified']
     template_name = 'user/update_profale.html'
     context_object_name = 'profile'
     success_url = reverse_lazy('detail_user_my')

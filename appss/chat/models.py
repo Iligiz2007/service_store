@@ -1,7 +1,7 @@
 from uuid import uuid4
 from django.db import models
-from apps.shop.models import Service
-from apps.user.models import User
+from appss.shop.models import Service
+from appss.user.models import User
 
 
 class Offer(models.Model):

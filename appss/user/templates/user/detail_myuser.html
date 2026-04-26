@@ -16,10 +16,19 @@
             {% else %}
             <p>Дата рождения: {{profile.birth_date}}</p>
             {% endif %}
+    # тут нужно тебе добавить сигнал и еще подключить селери + редис
+    <a href="" class="btn btn-warning">
+        📧 Отправить письмо для активации аккаунта
+    </a>
+    <p class="small  mt-2 text-light">
+        После нажатия проверьте почту и перейдите по ссылке 
+    </p>
+            
         </div>
             <div class="text-center mt-3">
                 <a href="{% url 'update_profile'%}" class="btn btn-primary col-6">Редактирвать профиль</a>
             </div>
+        
     </div>
 </div>
 {% endblock content %}

@@ -21,6 +21,7 @@ class Profile(models.Model):
     slug = models.SlugField(max_length=255,unique=True)
     bio = models.TextField(max_length=500)
     birth_date = models.DateField(null=True,blank=True)
+    is_verified = models.BooleanField(default=False)
         
     def save(self, *args, **kwargs):
         # 1. Сначала создаем slug (ДО сохранения)

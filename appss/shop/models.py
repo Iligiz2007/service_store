@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from apps.user.models import User
+from appss.user.models import User
 from django.utils.text import slugify
 from uuid import uuid4
 from django.utils import timezone 
