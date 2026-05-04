@@ -28,6 +28,9 @@ class Service(models.Model):
             self.slug = f"{slugify(self.title)}-{self.user.pk}"
 
         super().save(*args, **kwargs)
+    def __str__(self):
+        return self.title
+    
     class Meta():
         unique_together = ['user', 'title']
         

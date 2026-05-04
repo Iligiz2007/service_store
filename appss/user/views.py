@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
     template_name = 'user/register.html'
     form_class = FormRegisterUser
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('shop:home')
     redirect_authenticated_user  = False
     def form_valid(self, form):
         service = form.save()
@@ -45,7 +45,7 @@ class ViewsLoginUser(UserPassesTestMixin,LoginView):
 
 class ViewsLogout(UserPassesTestMixin,LogoutView):
     template_name = 'user/logout.html'         
-    next_page = reverse_lazy('home')       
+    next_page = reverse_lazy('shop:home')       
     http_method_names = ['get','post']
 
     def test_func(self):

@@ -26,7 +26,6 @@ class Chat(models.Model):
     status = models.BooleanField(default=True)
     uuid = models.UUIDField(default=uuid4,editable=False)
     create_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField(auto_now_add=True)
     members = models.ManyToManyField(User)
     offer = models.OneToOneField(Offer,on_delete=models.CASCADE)
 
@@ -41,4 +40,5 @@ class Message(models.Model):
         date = self.timestamp.date()
         time = self.timestamp.time()
         return f"{self.author}:- {self.content} @{date} {time.hour}:{time.minute}"
+    
     
