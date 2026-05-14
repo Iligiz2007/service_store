@@ -156,3 +156,4 @@ class ServiceFormTests(TestCase):
     def test_book_form_validation_for_blank_items(self):
         add_sevice_form = FormService(data={'title':'','description':'','price':''})
         self.assertFalse(add_sevice_form.is_valid())
+    

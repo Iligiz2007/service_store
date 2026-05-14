@@ -1,0 +1,45 @@
+<div class="">
+<div id="user-menu" style="transform: scale(0.8); transform-origin: top right">    
+    <div class="btn-group" role="group">
+        <div class="dropdown position-relative" data-bs-theme="dark">
+            <button class="btn btn-outline-primary dropdown-toggle rounded-end-0" type="button" data-bs-toggle="dropdown">
+                Тип аккаунта 
+            </button>
+            <ul class="dropdown-menu">
+                {% if user.profile.status %}
+                    <li><a href="#" class="dropdown-item text-primary">✓ Вы продавец</a></li>
+                    <li>
+                        <a hx-post="{% url 'change_to_buyer' %}"
+                           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+                           hx-target="#user-menu"     
+                           hx-swap="outerHTML"        
+                           href="#"
+                           class="dropdown-item">Стать покупателем</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a hx-post="{% url 'change_to_salesman' %}"
+                           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+                           hx-target="#user-menu"     
+                           hx-swap="outerHTML"        
+                           href="#"
+                           class="dropdown-item">Стать продавцом</a>
+                    </li>
+                    <li><a href="#" class="dropdown-item text-primary">✓ Вы покупатель</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-primary rounded-0">Выход</button>
+        </form>
+        <a href="{% url 'shop:form_servace_name' %}" class="btn btn-outline-primary">Создать задачу</a>
+        <a href=""class="btn btn-outline-primary">Список моих задач</a>
+        <a href="{% url 'shop:list_service' %}" class="btn btn-outline-primary">Список услуг</a>
+
+        <a href="{% url 'detail_user_my' %}" class="btn btn-outline-primary">Профиль</a>
+        <!-- Это чат его нужно будет доделать -->
+        <a href="{% url 'detail_user_my' %}" class="btn btn-outline-primary">Чат</a>
+    </div>
+</div>
+</div>

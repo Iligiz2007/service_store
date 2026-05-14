@@ -1,4 +1,5 @@
 from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from .forms import FormRegisterUser,FormLoginUser
@@ -8,7 +9,8 @@ from django.views.generic import CreateView,DetailView, TemplateView,UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from .models import User,Profile
 from django.shortcuts import get_object_or_404
-# Create your views here.
+from django.views import View 
+
 
 class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
     template_name = 'user/register.html'
@@ -80,3 +82,31 @@ class ViewsUpdateProfile(LoginRequiredMixin,UpdateView):
 
     def get_object(self):
         return self.request.user.profile
+
+class GuestMenuView(TemplateView):
+    def get(self, request,*args, **kwargs):
+        return render(request,'templates_htmx/menu_not_in.html')
+
+    
+class ViewsChangestatusSalesman(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        profile.status = True
+        profile.save()
+        return render(request, 'templates_htmx/menu_user_seller.html')
+
+
+class ViewsChangestatusBuyer(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        profile.status = False
+        profile.save()
+        return render(request, 'templates_htmx/menu_user_buyer.html')
+
+class ViewsGetMenu(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        if profile.status:
+            return render(request, 'templates_htmx/menu_user_seller.html')
+        else:
+            return render(request, 'templates_htmx/menu_user_buyer.html')

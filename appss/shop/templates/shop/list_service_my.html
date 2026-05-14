@@ -3,7 +3,7 @@
 {% block title %}Список задач{% endblock title %}
 
 {% block content %}
-    <div class="container">
+    <div class="container pt-5">
         <div class="row">
             {% for serv in service %}
                 <div class="col-md-4 col-sm-6 col-12 mb-4">
@@ -16,7 +16,7 @@
                                     <a href="{% url 'shop:detail_service' serv.pk %}" class="text-info">...читать далее</a>
                                 {% endif %}
                             </p>
-                            <a href="{% url 'shop:detail_service' slug=serv.slug %}" class="btn btn-primary mt-auto">Откликнуться</a>
+                            <a href="{% url 'shop:update_service' slug=serv.slug %}" class="btn btn-warning mt-auto">Редактирвать</a>
                         </div>
                     </div>
                 </div>

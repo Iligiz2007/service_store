@@ -22,13 +22,13 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500)
     birth_date = models.DateField(null=True,blank=True)
     is_verified = models.BooleanField(default=False)
+    status = models.BooleanField(default=False,blank=False,null=False)
         
     def save(self, *args, **kwargs):
-        # 1. Сначала создаем slug (ДО сохранения)
         if not self.slug:
             self.slug = slugify(self.user.username)
         
-        # 2. Обрабатываем аватарку
+       
         if self.avatar:
             try:
                 avatar = Image.open(self.avatar.path)
@@ -38,8 +38,8 @@ class Profile(models.Model):
                     avatar.thumbnail(new_avatar)
                     avatar.save(self.avatar.path)
             except (AttributeError, IOError):
-                # добавить позже логирование 
+            
                 pass
         
-        # 3. ТОЛЬКО ТЕПЕРЬ сохраняем
+        
         super().save(*args, **kwargs)

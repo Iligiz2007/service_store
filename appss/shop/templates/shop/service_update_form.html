@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block content %}
+<form method="post">
+                {% csrf_token %} 
+<div class="card bg-dark mt-5 pt-3 border-light" >
+    <div class="card-body text-light">
+        <div>
+            <label for="title"  class="form-label">Название услуги</label>
+            <input type="text" name="title" class="form-control">
+        </div>
+
+        <div>
+            <label for="description"  class="form-label">Описание</label>
+            <textarea name="description"  class="form-control" rows="3" placeholder="Введите описание услуги"></textarea>
+        </div>
+
+        <div>
+            <label for="price" class="form-label">Стоимость</label>
+            <input type="number" name="price" class="form-control" min="100">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Сохранить</button>
+    </div>
+</div>
+
+</form>
+
+{% endblock content %}
