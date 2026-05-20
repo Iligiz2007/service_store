@@ -7,6 +7,8 @@ class FormService(ModelForm):
     class Meta:
         model = Service
         fields = ("title","description","price")
+
+
 class FormTask(ModelForm):
     class Meta:
         model = Task

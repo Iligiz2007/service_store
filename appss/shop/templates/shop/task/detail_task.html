@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block title %}Товар{% endblock title %}
+
+{% block content %}
+    <div class="container card bg-dark text-light border-secondary">
+        <div class="card-body">
+            <h2 class="card-title"> {{task.title}} </h2>
+            <p class="card-text">{{task.description}}</p>
+            <a href="" class="btn btn-primary">Откликнуться</a>
+            <br>
+        <a href="{% url 'detail_user' slug=task.user.profile.slug %}" class="text-decoration-none">Заказчик {{task.user}}</a>
+        <p></p>
+        </div>
+
+    </div>
+{% endblock content %}

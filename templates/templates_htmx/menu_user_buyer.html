@@ -33,8 +33,8 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-primary rounded-0">Выход</button>
         </form>
-        <a href="{% url 'shop:form_servace_name' %}" class="btn btn-outline-primary">Создать задачу</a>
-        <a href=""class="btn btn-outline-primary">Список моих задач</a>
+        <a href="{% url 'shop:create_task' %}" class="btn btn-outline-primary">Создать задачу</a>
+        <a href="{% url 'shop:list_task_my' %}"class="btn btn-outline-primary">Список моих задач</a>
         <a href="{% url 'shop:list_service' %}" class="btn btn-outline-primary">Список услуг</a>
 
         <a href="{% url 'detail_user_my' %}" class="btn btn-outline-primary">Профиль</a>

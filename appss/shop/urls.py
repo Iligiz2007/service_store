@@ -1,11 +1,16 @@
 from django.urls import path
-from .views import ViewsService,ViewsIndex,ViewsListService,ViewsDetialService,ViewsUserListService,ViewsUpdateService
+from .views import ViewsService,ViewsIndex,ViewsListService,ViewsDetialService,ViewsUserListService,ViewsUpdateService,ViewsFormTask,ViewsListTaskMy,ViewsDetailTask,ViewsUpdateTask,ViewsListTask
 app_name = 'shop'
 urlpatterns = [
-    path('detail_servase/<slug:slug>/',ViewsDetialService.as_view(),name="detail_service"),
     path('list_service/',ViewsListService.as_view(),name='list_service'),
+    path('list_task_my/', ViewsListTaskMy.as_view(),name='list_task_my'),
+    path('list_task_/', ViewsListTask.as_view(),name='list_task'),
     path('form_servace/', ViewsService.as_view(),name='form_servace_name'),
     path("list_service_my/", ViewsUserListService.as_view(), name="list_service_my"),
-    path("update/service/<slug:slug>", ViewsUpdateService.as_view(), name="update_service"),
+    path('create_task/',ViewsFormTask.as_view(),name='create_task'),
     path('',ViewsIndex.as_view(),name="home"),
+    path('update/task/<slug:slug>',ViewsUpdateTask.as_view(), name='update_task'),
+    path('detail_servase/<slug:slug>/',ViewsDetialService.as_view(),name="detail_service"),
+    path("update/service/<slug:slug>", ViewsUpdateService.as_view(), name="update_service"),
+    path('detail_task/<slug:slug>/',ViewsDetailTask.as_view(),name='detail_task'),
 ]

@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from appss.user.models import User
-from django.utils.text import slugify
+from pytils.translit import slugify
 from uuid import uuid4
 from django.utils import timezone 
 # Create your models here.
@@ -10,60 +10,45 @@ from django.utils import timezone
 class BaseModel(models.Model):
     title = models.CharField(
         max_length=255,
-        verbose_name="",
-        help_text="")
-    
+        verbose_name="Название",
+        help_text="Название")
     description = models.TextField(
-        verbose_name="",
-        help_text="")
-    
+        verbose_name="Описание",
+        help_text="Описание ваших задачи")
     price = models.PositiveIntegerField(
         verbose_name="",
         help_text="",
         validators=[MinValueValidator(100)])
     slug = models.SlugField(max_length=255,unique=True ,blank=True)
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-    def save(self,*args, **kwargs):
-        if not self.slug:
-            self.slug = f"{slugify(self.title)}-{self.user.pk}"
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            self.slug = base_slug
+            
+            counter = 1
+            while self.__class__.objects.filter(slug=self.slug).exists():
+                self.slug = f"{base_slug}-{counter}"
+                counter += 1
+        
         super().save(*args, **kwargs)
     def __str__(self):
-        return self.title
+        return f'{self.title} автор: {self.user}'
     class Meta:
-        abstract = True
+        abstract = True  
         unique_together = ['user', 'title']
-    
-    
 
 class Service(BaseModel):
-    title = models.CharField(
-        max_length=255,
-        verbose_name="Название",
-        help_text="Название услуг")
+
+    class Meta:
+        verbose_name = "Услуга"
+        verbose_name_plural = "Услуги"
     
-    description = models.TextField(
-        verbose_name="Описание",
-        help_text="Описание ваших услуги")
-    
-    price = models.PositiveIntegerField(
-        verbose_name="Цена",
-        help_text="Стоимость: минимально 100р",
-        validators=[MinValueValidator(100)])
 
     
 class Task(BaseModel):
-    title = models.CharField(
-        max_length=255,
-        verbose_name="Название",
-        help_text="Название задачи")
-    description = models.TextField(
-        verbose_name="Описание",
-        help_text="Описание ваших задачи")
-    
-    price = models.PositiveIntegerField(
-        verbose_name="Цена",
-        help_text="Стоимость: минимально 100р",
-        validators=[MinValueValidator(100)])
-    
+    class Meta:
+        verbose_name = "Задача"
+        verbose_name_plural = "Задачи"
 

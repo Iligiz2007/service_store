@@ -34,6 +34,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+  
     'channels',
     'daphne',
     'django.contrib.admin',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'appss.shop',
     'appss.user',
     'appss.chat',
+
 ]
 
 MIDDLEWARE = [
@@ -86,7 +88,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

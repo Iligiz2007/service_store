@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block title %}Task{% endblock title %}
+
+{% block content %}
+<div class="card bg-dark border-secondary text-light">
+    <div class="card-body"> 
+        <form method="post">
+            {% csrf_token %} 
+            
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Название задачи</label>
+                <input type="text" name="title" id="id_title" class="form-control" placeholder="Название">
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Описание</label>
+                <textarea name="description" id="id_description" class="form-control" rows="3" placeholder="Введите описание услуги"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_price" class="form-label">Стоимость</label>
+                <input type="number" name="price" id="id_price" min="0" class="form-control" placeholder="Минимальная стоимость 100р">
+            </div>
+            
+            <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
