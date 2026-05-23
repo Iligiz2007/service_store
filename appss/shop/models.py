@@ -34,7 +34,7 @@ class BaseModel(models.Model):
         
         super().save(*args, **kwargs)
     def __str__(self):
-        return f'{self.title} автор: {self.user}'
+        return f'{self.title}'
     class Meta:
         abstract = True  
         unique_together = ['user', 'title']

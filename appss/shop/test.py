@@ -3,7 +3,7 @@ from django.test import Client
 from django.urls import reverse
 from django.views.generic import TemplateView
 from . import views
-from .models import Service
+from .models import Service, Task
 from appss.user.models import User
 from .forms import FormService
 # GET Запросы
@@ -62,6 +62,7 @@ class ListServicePageGetTests(TestCase):
         self.assertTemplateUsed(self.response, 'index.html')
 # Если пользователь не зарегистрирован
 
+
 class FormServicePageGetTests(SimpleTestCase):
     @classmethod
     def setUpClass(cls):
@@ -87,6 +88,7 @@ class FormServicePageGetTests(SimpleTestCase):
 
 
 #Тест моделей
+    # Model Service
 class ServiceModelTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -130,6 +132,81 @@ class ServiceModelTests(TestCase):
         first_saved_service = all_service[1]
         self.assertEqual(first_saved_service.title,'second услуга')
         self.assertEqual(first_saved_service.user, self.user)
+
+
+    #Model Task
+class TaskModelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username = 'Ivan',
+            password='lollol212'
+        )
+    
+    def setUp(self):
+        self.task = Task(
+        title = 'Создание ботов',
+            description = 'Я могу создавать ботов в max и telegram',
+            price = 100,
+            user = self.user)
+    
+    def test_create_task(self):
+        self.assertIsInstance(self.task,Task)
+
+    def test_title_Service(self):
+        self.assertEqual(str(self.task),'Создание ботов')
+    
+    def test_saving_and_retrieving_task(self):
+        first_task = Task()
+        first_task.title = 'Первая задача'
+        first_task.description = 'Описание первой задачи'
+        first_task.price = 350
+        first_task.user = self.user
+        first_task.save()
+
+        second_task = Task()
+        second_task.title = 'second задача'
+        second_task.description = 'Описание second задачи'
+        second_task.price = 100
+        second_task.user = self.user
+        second_task.save()
+
+        all_task = Task.objects.all()
+        self.assertEqual(all_task.count(),2)
+        
+        first_saved_task = all_task[0]
+        second_saved_task = all_task[1]
+
+        self.assertEqual(first_saved_task.title,'Первая задача')
+        self.assertEqual(first_saved_task.user, self.user)
+
+        self.assertEqual(second_saved_task.title,'second задача')
+        self.assertEqual(second_saved_task.user, self.user)
+
+
+    # Для url связанные с Task Не заригистрирванный пользователь
+class TaskPageGetTests(SimpleTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        url = '/create_task/'
+        client = Client()
+        cls.response =client.get(url)
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,302)
+    
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'create_task')
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class, views.ViewsFormTask)
+    
+
+
+
+
+
 #Тесты для форм
 class ServiceFormTests(TestCase):
     @classmethod
@@ -154,6 +231,6 @@ class ServiceFormTests(TestCase):
         self.assertContains(self.response, 'class="form-control"')
     
     def test_book_form_validation_for_blank_items(self):
-        add_sevice_form = FormService(data={'title':'','description':'','price':''})
-        self.assertFalse(add_sevice_form.is_valid())
+        add_service_form  = FormService(data={'title':'','description':'','price':''})
+        self.assertFalse(add_service_form .is_valid())
     
