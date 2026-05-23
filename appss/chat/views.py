@@ -5,12 +5,11 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView ,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Chat,Offer
 from appss.shop.models import Service
 # Create your views here.
 
 
-class ViewsOffers(LoginRequiredMixin,CreateView):
+"""class ViewsOffers(LoginRequiredMixin,CreateView):
     model = Offer
     template_name = 'chat/offer_create.html'
     context_object_name = 'offer'
@@ -31,3 +30,4 @@ class ViewsOffers(LoginRequiredMixin,CreateView):
 
     def get_queryset(self):
         return Chat.objects.filter(participants=self.request.user) '''   
+"""

@@ -6,5 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/',include('appss.user.urls')),
     path('',include("appss.shop.urls")),
-    path('chat',include('appss.chat.urls')),
+    #path('chat',include('appss.chat.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
