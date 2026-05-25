@@ -30,7 +30,7 @@ class HomePageGetTests(SimpleTestCase):
     def test_template_name(self):
         self.assertTemplateUsed(self.response, 'index.html')
 
-    def text_base_template_name(self):
+    def test_base_template_name(self):
         self.assertTemplateUsed(self.response, 'index.html')
     
 
@@ -134,6 +134,112 @@ class ServiceModelTests(TestCase):
         self.assertEqual(first_saved_service.user, self.user)
 
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.client = Client()
+        cls.client.login(username='Ivan', password='lollol212')
+        url = '/list_service_my/'
+        cls.response = cls.client.get(url)
+
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,200)
+
+
+#Тесты для форм
+class ServiceFormTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username = 'Ivan',
+            password='lollol212'
+
+        )
+    def setUp(self):
+        self.client.login(username='Ivan', password='lollol212')
+        url = reverse('shop:form_servace_name')
+        self.response  = self.client.get(url)
+
+    def test_service_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form,FormService)
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+    
+    def test_bootstrap_class_used_for_default_styling(self):
+    # Для твоей формы (FormService) - исправлено имя
+        self.assertContains(self.response, 'class="form-control"')
+    
+    def test_book_form_validation_for_blank_items(self):
+        add_service_form  = FormService(data={'title':'','description':'','price':''})
+        self.assertFalse(add_service_form .is_valid())
+
+
+class ServiceUpdateTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username = 'Ivan',
+            password='lollol212'
+
+        )
+
+    def setUp(self):
+        self.service = Service.objects.create(
+            title = 'Создание ботов',
+            description = 'Я могу создавать ботов в max и telegram',
+            price = 100,
+            user = self.user
+        )
+    
+        self.client.login(username = 'Ivan',password='lollol212')
+        self.url = reverse('shop:update_service',kwargs={'slug':self.service.slug})
+        self.response = self.client.get(self.url)
+
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,200)
+    
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'update_service')
+    
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class,views.ViewsUpdateService)
+
+class ServiceDetailTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username = 'Ivan',
+            password='lollol212'
+
+        )
+
+    def setUp(self):
+        self.service = Service.objects.create(
+            title = 'Создание ботов',
+            description = 'Я могу создавать ботов в max и telegram',
+            price = 100,
+            user = self.user
+        )
+    
+        self.client.login(username = 'Ivan',password='lollol212')
+        self.url = reverse('shop:detail_service',kwargs={'slug':self.service.slug})
+        self.response = self.client.get(self.url)
+    
+    def test_url_asecc(self):
+        self.assertEqual(self.response.status_code,200)
+    
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'detail_service')
+
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class,views.ViewsDetialService)
+    
     #Model Task
 class TaskModelTests(TestCase):
     @classmethod
@@ -192,23 +298,92 @@ class TaskPageGetTests(SimpleTestCase):
         url = '/create_task/'
         client = Client()
         cls.response =client.get(url)
+
     def test_url_access(self):
         self.assertEqual(self.response.status_code,302)
     
     def test_url_name(self):
         self.assertEqual(self.response.resolver_match.url_name,'create_task')
+
     def test_url_namespace(self):
         self.assertEqual(self.response.resolver_match.namespace,'shop')
+
     def test_view_name(self):
         self.assertEqual(self.response.resolver_match.func.view_class, views.ViewsFormTask)
     
+class ListTaskPageGetTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        url = '/list_task/'
+        client = Client()
+        cls.response = client.get(url)
+    
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,200)
+    
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'list_task')
+    
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class, views.ViewsListTask)
+    
+class ListTaskMyPageGetTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        url = '/list_task_my/'
+        client = Client()
+        cls.response = client.get(url)
+    
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,302)
+    
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'list_task_my')
+    
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class, views.ViewsListTaskMy)
 
 
 
+class UpdateTaskPageGetTests(TestCase):
+    
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = User.objects.create_user(username='Ivan',password='lollol212')
+    
 
+    def setUp(self):
+        self.task = Task.objects.create(
+            title = 'Создание ботов',
+            description = 'Я могу создавать ботов в max и telegram',
+            price = 100,
+            user = self.user)
+        self.client.login(username='Ivan',password='lollol212')
+        self.url = reverse('shop:update_task',kwargs={'slug':self.task.slug})    
 
-#Тесты для форм
-class ServiceFormTests(TestCase):
+        self.response = self.client.get(self.url)
+
+    def test_url_access(self):
+        self.assertEqual(self.response.status_code,200)
+    
+
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'update_task')
+    
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+  
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class,views.ViewsUpdateTask)
+class DetailTaskPageGetTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_user(
@@ -216,21 +391,27 @@ class ServiceFormTests(TestCase):
             password='lollol212'
 
         )
-    def setUp(self):
-        self.client.login(username='Ivan', password='lollol212')
-        url = reverse('shop:form_servace_name')
-        self.response  = self.client.get(url)
 
-    def test_service_form(self):
-        form = self.response.context.get('form')
-        self.assertIsInstance(form,FormService)
-        self.assertContains(self.response, 'csrfmiddlewaretoken')
+    def setUp(self):
+        self.task = Task.objects.create(
+            title = 'Создание ботов',
+            description = 'Я могу создавать ботов в max и telegram',
+            price = 100,
+            user = self.user
+        )
     
-    def test_bootstrap_class_used_for_default_styling(self):
-    # Для твоей формы (FormService) - исправлено имя
-        self.assertContains(self.response, 'class="form-control"')
+        self.client.login(username = 'Ivan',password='lollol212')
+        self.url = reverse('shop:detail_task',kwargs={'slug':self.task.slug})
+        self.response = self.client.get(self.url)
     
-    def test_book_form_validation_for_blank_items(self):
-        add_service_form  = FormService(data={'title':'','description':'','price':''})
-        self.assertFalse(add_service_form .is_valid())
+    def test_url_asecc(self):
+        self.assertEqual(self.response.status_code,200)
     
+    def test_url_name(self):
+        self.assertEqual(self.response.resolver_match.url_name,'detail_task')
+
+    def test_url_namespace(self):
+        self.assertEqual(self.response.resolver_match.namespace,'shop')
+    
+    def test_view_name(self):
+        self.assertEqual(self.response.resolver_match.func.view_class,views.ViewsDetailTask)
