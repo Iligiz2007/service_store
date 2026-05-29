@@ -2,7 +2,7 @@ from django.db import models
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
-from django.utils.text import slugify
+from pytils.translit import slugify
 # Create your models here.
 class User(AbstractUser):
     username = models.CharField(max_length=50,unique=True,verbose_name="Имя пользователя",help_text="Ввидите имя пользователя")
