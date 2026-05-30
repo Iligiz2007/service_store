@@ -23,23 +23,16 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True,blank=True)
     is_verified = models.BooleanField(default=False)
     status = models.BooleanField(default=False,blank=False,null=False)
-        
+    
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.user.username)
-        
-       
-        if self.avatar:
-            try:
-                avatar = Image.open(self.avatar.path)
-                
-                if avatar.height > 100 or avatar.width > 100:
-                    new_avatar = (100, 100)
-                    avatar.thumbnail(new_avatar)
-                    avatar.save(self.avatar.path)
-            except (AttributeError, IOError):
-            
-                pass
-        
-        
+            # Берём за основу username (можно заменить на другое поле: email, first_name и т.п.)
+            base_slug = slugify(self.user.username)
+            slug = base_slug
+            counter = 1
+            # Ищем профиль с таким же slug (исключая самого себя, если он уже есть в БД)
+            while Profile.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)

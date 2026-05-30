@@ -7,10 +7,9 @@
         <div class="card-body">
             <h2 class="card-title"> {{service.title}} </h2>
             <p class="card-text">{{service.description}}</p>
-            <a href="" class="btn btn-primary">Откликнуться</a>
+            <a href="{% url "create_service_offer" service.id %}" class="btn btn-primary">Откликнуться</a>
             <br>
         <a href="{% url 'detail_user' slug=service.user.profile.slug %}" class="text-decoration-none">Заказчик {{service.user}}</a>
-        <p>Дата создание{{service.}}</p>
         </div>
 
     </div>

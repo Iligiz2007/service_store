@@ -7,3 +7,10 @@ class TaskOfferAdmin(admin.ModelAdmin):
 
     def customer(self, obj):
         return obj.product.user
+
+@admin.register(ServiceOffer)
+class ServiceOfferAdmin(admin.ModelAdmin):
+    list_display = ('id', 'executor', 'customer', 'status')
+
+    def customer(self, obj):
+        return obj.product.user
