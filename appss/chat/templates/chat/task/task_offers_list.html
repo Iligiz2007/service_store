@@ -1,8 +1,18 @@
 {% extends "index.html" %}
 
 {% block content %}
-    {% for offers  in offer  %}
-    
- 
+<div class="container">
+    {% for offer in offers %}
+        <div class="mb-4">  <!-- отступ снизу между карточками -->
+            <div class="text-light card bg-dark border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ offer.product.title }}</h5>
+                    <p>Цена: {{ offer.proposed_price }}</p>
+                    <p class="card-text">Сообщение: {{ offer.message }}</p>
+                    <p>Продавец: {{ offer.product.user.username }}</p>
+                </div>
+            </div>
+        </div>
     {% endfor %}
+</div>  
 {% endblock content %}

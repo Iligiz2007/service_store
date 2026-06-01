@@ -16,7 +16,8 @@
                                     <a href="{% url 'shop:detail_task' tk.pk %}" class="text-info">...читать далее</a>
                                 {% endif %}
                             </p>
-                            <a href="{% url 'shop:update_task' slug=tk.slug %}" class="btn btn-warning mt-auto">Редактирвать</a>
+                            <a href="{% url 'list_offers_task' task_slug=tk.slug %}" class="btn btn-primary">Офферы</a>
+                            <a href="{% url 'shop:update_task' slug=tk.slug %}" class="btn btn-warning mt-1">Редактирвать</a>
                         </div>
                     </div>
                 </div>
