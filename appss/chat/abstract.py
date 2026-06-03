@@ -21,6 +21,7 @@ class BaseOffer(models.Model):
 
 
 class BaseChat(models.Model):
+    name = models.CharField(max_length=500)
     status = models.BooleanField(default=True)
     uuid = models.UUIDField(default=uuid4,editable=False)
     created_ad = models.DateField(auto_now_add=True)

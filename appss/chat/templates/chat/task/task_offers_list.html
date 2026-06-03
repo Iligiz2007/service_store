@@ -10,6 +10,10 @@
                     <p>Цена: {{ offer.proposed_price }}</p>
                     <p class="card-text">Сообщение: {{ offer.message }}</p>
                     <p>Продавец: {{ offer.product.user.username }}</p>
+                    <form method="post" action="{% url 'handle_offer' offer.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="accept" class="btn btn-success">Принять</button>
+                    </form>
                 </div>
             </div>
         </div>
