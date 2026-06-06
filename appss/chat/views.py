@@ -88,11 +88,19 @@ class ViewsCreateChatTask(LoginRequiredMixin,View):
         # 7. Перенаправляем на страницу чата (предположим, что у нас есть такой URL)
         return redirect('chat_detail', chat_id=chat.id)
     
+class ViewsCreateTaskMessege(LoginRequiredMixin,View):
+    def post(self, request, chat_id):
+        chat = get_object_or_404(TaskChat,id=chat_id)
+        taskmessage = TaskMessage.objects.create(chat=chat,author=request.user.username,content=request.POST.get('content'))
+        return redirect('chat_detail', chat_id=chat.id)
     
 class ViewsDetailChat(LoginRequiredMixin,DetailView):
-    model = TaskChat()
-    template_name = 'chat'
-    def post(self, request, chat_id):
-        chat = self.get_object_or_404(TaskChat,id=chat_id)
-        request.chat = chat
+    model = TaskChat
+    template_name = 'пока в процессе'
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        context['chat_messages'] = self.object.taskmessage_set.all().order_by('timestamp')
+        return context
+
+    
     

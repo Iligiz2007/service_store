@@ -29,8 +29,3 @@ class TaskChat(BaseChat):
 
 class TaskMessage(BaseMessage):
     chat = models.ForeignKey(TaskChat,on_delete=models.CASCADE)
-    
-    
-
-    
-    
