@@ -34,7 +34,6 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 # Application definition
 
 INSTALLED_APPS = [
-  
     'channels',
     'daphne',
     'django.contrib.admin',
@@ -43,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'drf_spectacular',
     'appss.shop',
     'appss.user',
     'appss.chat',

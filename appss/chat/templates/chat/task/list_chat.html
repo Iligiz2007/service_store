@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block title %}Список чатов{% endblock title %}
+
+{% block content %}
+    {% for chat in  chat_list%}
+    {{ chat.as_p }}
+    
+    {% endfor %}
+{% endblock content %}

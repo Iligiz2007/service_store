@@ -63,44 +63,46 @@ class ViewsCreateOfferService(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 #Chat
 class ViewsCreateChatTask(LoginRequiredMixin,View):
-    def post(self, request, task_id):
-        # 1. Получаем оффер по id из URL
-        offer = get_object_or_404(TaskOffer, id=task_id)
+    def post(self, request, offer_id):
+        offer = get_object_or_404(TaskOffer, id=offer_id)
+        offers_to_reject = TaskOffer.objects.filter(
+        product=offer.product,
+            status=TaskOffer.Status.PENDING
+        ).exclude(id=offer_id)
 
-        # 2. Проверяем, что пользователь — владелец задачи
         if request.user != offer.product.user:
             return HttpResponseForbidden("Вы не владелец задачи")
-
-        # 3. Проверяем, что оффер ещё не обработан
         if offer.status != TaskOffer.Status.PENDING:
             return HttpResponseForbidden("Оффер уже принят или отклонён")
-
-        # 4. Меняем статус оффера и сохраняем
         offer.status = TaskOffer.Status.ACCEPTED
+        offers_to_reject.update(status=TaskOffer.Status.REJECTED)
         offer.save()
 
-        # 5. Создаём чат и привязываем к офферу
         chat = TaskChat.objects.create(offer=offer,name = offer.product.title)
 
-        # 6. Добавляем участников: заказчика и исполнителя
         chat.members.add(offer.product.user, offer.executor)
 
-        # 7. Перенаправляем на страницу чата (предположим, что у нас есть такой URL)
         return redirect('chat_detail', chat_id=chat.id)
     
 class ViewsCreateTaskMessege(LoginRequiredMixin,View):
     def post(self, request, chat_id):
         chat = get_object_or_404(TaskChat,id=chat_id)
-        taskmessage = TaskMessage.objects.create(chat=chat,author=request.user.username,content=request.POST.get('content'))
+        taskmessage = TaskMessage.objects.create(chat=chat,author=request.user,content=request.POST.get('content'))
         return redirect('chat_detail', chat_id=chat.id)
     
 class ViewsDetailChat(LoginRequiredMixin,DetailView):
     model = TaskChat
-    template_name = 'пока в процессе'
+    context_object_name = 'chat'
+    template_name = 'chat/task/detail_task.html'
+    pk_url_kwarg = 'chat_id'
     def get_context_data(self, **kwargs: Any):
         context = super().get_context_data(**kwargs)
         context['chat_messages'] = self.object.taskmessage_set.all().order_by('timestamp')
         return context
 
+class ViewsListChatTask(LoginRequiredMixin,ListView):
+    model = TaskChat
+    context_object_name = 'chat_list'
+    template_name = 'chat/task/task_offers_list.html'
     
     
