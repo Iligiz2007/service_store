@@ -1,0 +1,19 @@
+<div class="flex-grow-1 overflow-auto p-3">
+    {% for mess in chat_messages %}
+        <p><strong>{{ mess.author.username }}</strong> ({{ mess.timestamp|date:"H:i" }}): {{ mess.content }}</p>
+    {% empty %}
+        <p>Сообщений пока нет.</p>
+    {% endfor %}
+</div>
+
+<div class="border-top border-secondary p-3">
+    <form hx-post="{% url 'create_message_task' chat.id %}"
+          hx-target="#chat-panel"
+          hx-swap="innerHTML"
+          hx-on::after-request="this.reset()">
+        {% csrf_token %}
+        <textarea name="content" class="form-control" rows="2" required
+          onkeydown="if(event.keyCode==13 && !event.shiftKey){event.preventDefault(); this.form.requestSubmit();}"></textarea>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>

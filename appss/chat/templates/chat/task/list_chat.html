@@ -2,8 +2,30 @@
 {% block title %}Список чатов{% endblock title %}
 
 {% block content %}
-    {% for chat in  chat_list%}
-    {{ chat.as_p }}
     
-    {% endfor %}
+    <div class="container">
+
+
+        <div class="row">
+            <div class="list-group border overflow-auto col-3 rounded-0 border-end-0" style="height: 80vh;">
+                {% for item in  chats_with_interlocutor %}
+                    <div class="hstack gap-3 position-relative list-group-item bg-dark  border-0">
+
+                        <img src="{{ item.interlocutor.profile.avatar.url}}" alt="" width="60" height="60" class="p-1 rounded-circle">
+                        <a hx-get="{% url 'chat_detail' item.chat.id %}" hx-target="#chat-panel" class=" text-white p-1 stretched-link "  href="{% url "chat_detail" item.chat.id %}">{{item.chat.name}}</a>
+                    </div>
+
+                    
+                {% endfor %}
+            </div>
+
+            <div id="chat-panel" class="col-9 bg-dark text-white border p-0 d-flex flex-column overflow-hidden" style="height: 80vh;">
+</div>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+    
 {% endblock content %}

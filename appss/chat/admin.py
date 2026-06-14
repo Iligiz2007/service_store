@@ -14,3 +14,5 @@ class ServiceOfferAdmin(admin.ModelAdmin):
 
     def customer(self, obj):
         return obj.product.user
+
+admin.site.register(TaskChat)

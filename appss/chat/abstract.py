@@ -26,9 +26,9 @@ class BaseChat(models.Model):
     uuid = models.UUIDField(default=uuid4,editable=False)
     created_ad = models.DateField(auto_now_add=True)
     members = models.ManyToManyField(User)
-    
     class Meta:
         abstract = True
+    
 
 
 class BaseMessage(models.Model):

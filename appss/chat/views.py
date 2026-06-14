@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from appss.shop.models import Service,Task
 from .models import TaskOffer,ServiceOffer,TaskChat,TaskMessage
 from django.urls import reverse_lazy
+from django.template.loader import render_to_string
 # Create your views here.
 
 #Task
@@ -88,21 +89,44 @@ class ViewsCreateTaskMessege(LoginRequiredMixin,View):
     def post(self, request, chat_id):
         chat = get_object_or_404(TaskChat,id=chat_id)
         taskmessage = TaskMessage.objects.create(chat=chat,author=request.user,content=request.POST.get('content'))
-        return redirect('chat_detail', chat_id=chat.id)
-    
-class ViewsDetailChat(LoginRequiredMixin,DetailView):
+        messages = chat.taskmessage_set.all().order_by('timestamp')
+        return render(request, 'chat/task/list_message_task.html', {
+            'chat': chat,
+            'chat_messages': messages,})
+
+
+class ViewsDetailChat(LoginRequiredMixin, DetailView):
     model = TaskChat
     context_object_name = 'chat'
-    template_name = 'chat/task/detail_task.html'
+    template_name = 'chat/task/list_message_task.html'  # Всегда фрагмент
     pk_url_kwarg = 'chat_id'
-    def get_context_data(self, **kwargs: Any):
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['chat_messages'] = self.object.taskmessage_set.all().order_by('timestamp')
         return context
 
+
 class ViewsListChatTask(LoginRequiredMixin,ListView):
     model = TaskChat
     context_object_name = 'chat_list'
-    template_name = 'chat/task/task_offers_list.html'
+    template_name = 'chat/task/list_chat.html'
+    def get_queryset(self):
+        return TaskChat.objects.filter(members=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        chats_with_interlocutor = []
+        for chat in context['chat_list']:
+            interlocutor = chat.members.exclude(id=self.request.user.id).first()
+            chats_with_interlocutor.append({
+                'chat': chat,
+                'interlocutor': interlocutor
+            })
+        context['chats_with_interlocutor'] = chats_with_interlocutor
+        return context
+
+    
+    
     
     
