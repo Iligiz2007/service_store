@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container">
+    {% for serv in service_offers %}
+        {% if serv.status == 'pending' %}
+            <div class="mb-4">  <!-- отступ снизу между карточками -->
+            <div class="text-light card bg-dark border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ serv.product.title }}</h5>
+                    <p>Цена: {{ serv.proposed_price }}</p>
+                    <p class="card-text">Сообщение: {{ serv.message }}</p>
+                    <p>Продавец: {{ serv.executor.username }}</p>
+                    <form method="post" action="{% url 'create_chat_service' serv.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="accept" class="btn btn-success">Принять</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% elif serv.status == 'accepted' %}
+            <div class="mb-4">  <!-- отступ снизу между карточками -->
+            <div class="text-light card bg-dark border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ serv.product.title }}</h5>
+                    <p>Цена: {{ serv.proposed_price }}</p>
+                    <p class="card-text">Сообщение: {{ serv.message }}</p>
+                    <p>Продавец: {{ serv.executor.username }}</p>
+                    <p>статус ПРИНЯТ</p>
+                    
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="mb-4">  <!-- отступ снизу между карточками -->
+            <div class="text-light card bg-dark border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">{{ serv.product.title }}</h5>
+                    <p>Цена: {{ serv.proposed_price }}</p>
+                    <p class="card-text">Сообщение: {{ serv.message }}</p>
+                    <p>Продавец: {{ serv.executor.username }}</p>
+                    <p>статус ОТКЛОНЕН</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>  
+{% endblock content %}

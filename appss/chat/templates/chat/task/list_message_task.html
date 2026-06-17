@@ -1,4 +1,4 @@
-<div class="flex-grow-1 overflow-auto p-3">
+<div class="flex-grow-1 overflow-auto p-3" id="chat-messages">
     {% for mess in chat_messages %}
         <p><strong>{{ mess.author.username }}</strong> ({{ mess.timestamp|date:"H:i" }}): {{ mess.content }}</p>
     {% empty %}
@@ -7,9 +7,10 @@
 </div>
 
 <div class="border-top border-secondary p-3">
-    <form hx-post="{% url 'create_message_task' chat.id %}"
-          hx-target="#chat-panel"
-          hx-swap="innerHTML"
+    <form hx-post="{% url message_post_url chat.id %}"
+          hx-target="#chat-messages"
+          hx-select="#chat-messages"
+          hx-swap="innerHTML scroll:bottom"
           hx-on::after-request="this.reset()">
         {% csrf_token %}
         <textarea name="content" class="form-control" rows="2" required
@@ -17,3 +18,20 @@
         <button type="submit" class="btn btn-primary">Отправить</button>
     </form>
 </div>
+
+<script>
+    (function() {
+        const chatId = {{ chat.id }};
+        const chatType = "{{ chat_type }}";  // будет 'task' или 'service'
+        const socket = new WebSocket('ws://127.0.0.1:8000/ws/chat/' + chatType + '/' + chatId + '/');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const messagesDiv = document.getElementById('chat-messages');
+            const newMsg = document.createElement('p');
+            newMsg.innerHTML = '<strong>' + data.author + '</strong> (' + data.timestamp + '): ' + data.content;
+            messagesDiv.appendChild(newMsg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+    })();
+</script>

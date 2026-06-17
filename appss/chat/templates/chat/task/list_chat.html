@@ -12,7 +12,7 @@
                     <div class="hstack gap-3 position-relative list-group-item bg-dark  border-0">
 
                         <img src="{{ item.interlocutor.profile.avatar.url}}" alt="" width="60" height="60" class="p-1 rounded-circle">
-                        <a hx-get="{% url 'chat_detail' item.chat.id %}" hx-target="#chat-panel" class=" text-white p-1 stretched-link "  href="{% url "chat_detail" item.chat.id %}">{{item.chat.name}}</a>
+                        <a hx-get="{% url detail_chat item.chat.id %}" hx-target="#chat-panel" class=" text-white p-1 stretched-link "  href="{% url detail_chat item.chat.id %}">{{item.chat.name}}</a>
                     </div>
 
                     

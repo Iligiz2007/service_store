@@ -17,6 +17,7 @@
                                 {% endif %}
                             </p>
                             <a href="{% url 'shop:update_service' slug=serv.slug %}" class="btn btn-warning mt-auto">Редактирвать</a>
+                            <a href="{% url 'service_offers_task' service_slug=serv.slug %}" class="btn btn-primary mt-1">Офферы</a>
                         </div>
                     </div>
                 </div>
