@@ -1,10 +1,10 @@
 from django.urls import include, path
+from .api_views import  UserViewSet
 from rest_framework import routers
-from .api_views import TaskOfferViewSet
-
 
 router = routers.DefaultRouter()
-router.register(r'taskoffers',TaskOfferViewSet,basename='taskoffer')
+router.register(r'users',UserViewSet)
+
 
 
 urlpatterns = [

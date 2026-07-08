@@ -2,6 +2,8 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,redirect
+
+from appss.user.tasks import send_verification_email
 from .forms import FormRegisterUser,FormLoginUser
 from django.urls  import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
@@ -10,6 +12,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from .models import User,Profile
 from django.shortcuts import get_object_or_404
 from django.views import View 
+from django.contrib import messages
 
 
 class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
@@ -29,12 +32,12 @@ class ViewsRegisterUser(UserPassesTestMixin ,CreateView):
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
-        return  redirect(reverse_lazy('home'))
+        return  redirect(reverse_lazy('shop:home'))
     
 class ViewsLoginUser(UserPassesTestMixin,LoginView):
     template_name = 'user/login.html'
     form_class = FormLoginUser
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('shop:home')
     redirect_authenticated_user = True
 
 
@@ -43,7 +46,7 @@ class ViewsLoginUser(UserPassesTestMixin,LoginView):
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
-        return  redirect(reverse_lazy('home'))
+        return  redirect(reverse_lazy('shop:home'))
 
 class ViewsLogout(UserPassesTestMixin,LogoutView):
     template_name = 'user/logout.html'         
@@ -54,7 +57,7 @@ class ViewsLogout(UserPassesTestMixin,LogoutView):
         return self.request.user.is_authenticated
     
     def handle_no_permission(self):
-        return  redirect(reverse_lazy('home'))
+        return  redirect(reverse_lazy('shop:home'))
     
 class ViewsDetailProfileMy(LoginRequiredMixin,DetailView):
     template_name = 'user/detail_myuser.html'
@@ -110,3 +113,28 @@ class ViewsGetMenu(LoginRequiredMixin,View):
             return render(request, 'templates_htmx/menu_user_seller.html')
         else:
             return render(request, 'templates_htmx/menu_user_buyer.html')
+        
+# Активация user
+class ViewsActiveUser(View):
+    def get(self, request,*args, **kwargs):
+        uuid = self.kwargs['uuid']
+        user = get_object_or_404(User,verification_uuid=uuid)
+        profile = user.profile
+        if not profile.is_verified:
+            profile.is_verified = True
+            profile.save()
+            messages.success(request, 'Ваш аккаунт подтверждён!')
+        return redirect('login')
+
+class ViewsMail(View):
+    def post(self, request,*args, **kwargs):
+        user = request.user
+        profile = user.profile
+        if not profile.is_verified:
+            send_verification_email.delay(user.id)
+            messages.success(request, 'Письмо с подтверждением отправлено! Проверьте почту.')
+        else:
+            messages.info(request, 'Ваш аккаунт уже активирован.')
+        return redirect('detail_user_my')
+            
+

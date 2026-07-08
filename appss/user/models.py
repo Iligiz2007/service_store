@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
@@ -7,6 +8,8 @@ from pytils.translit import slugify
 class User(AbstractUser):
     username = models.CharField(max_length=50,unique=True,verbose_name="Имя пользователя",help_text="Ввидите имя пользователя")
     is_staff = models.BooleanField(default=False)
+    verification_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True,null=True, blank=True)
 
     
 
