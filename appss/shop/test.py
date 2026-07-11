@@ -30,8 +30,6 @@ class HomePageGetTests(SimpleTestCase):
     def test_template_name(self):
         self.assertTemplateUsed(self.response, 'index.html')
 
-    def test_base_template_name(self):
-        self.assertTemplateUsed(self.response, 'index.html')
     
 
 

@@ -86,10 +86,15 @@ class ViewsUpdateProfile(LoginRequiredMixin,UpdateView):
     def get_object(self):
         return self.request.user.profile
 
-class GuestMenuView(TemplateView):
+class GuestMenuView(UserPassesTestMixin,TemplateView):
     def get(self, request,*args, **kwargs):
         return render(request,'templates_htmx/menu_not_in.html')
 
+    def test_func(self) -> bool | None:
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return  redirect(reverse_lazy('shop:home'))
     
 class ViewsChangestatusSalesman(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
