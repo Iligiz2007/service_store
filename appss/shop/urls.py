@@ -10,7 +10,9 @@ from .views import (
     ViewsListTaskMy,
     ViewsDetailTask,
     ViewsUpdateTask,
-    ViewsListTask
+    ViewsListTask,
+    ViewsHTMXListMyTask,
+    ViewsHTMXListMyService,
     )
 app_name = 'shop'
 urlpatterns = [
@@ -77,5 +79,17 @@ urlpatterns = [
         'detail_task/<slug:slug>/',
         ViewsDetailTask.as_view(),
         name='detail_task'
+        ),
+    #TASK
+    path(
+        'htmx_listtask',
+        ViewsHTMXListMyTask.as_view(),
+        name="list_htmx_task"
+        ),
+    #SERVICE
+        path(
+        'htmx_listservice',
+        ViewsHTMXListMyService.as_view(),
+        name="list_htmx_service"
         ),
 ]

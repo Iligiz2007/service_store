@@ -84,3 +84,16 @@ class ViewsUpdateTask(LoginRequiredMixin,UpdateView):
     slug_url_kwarg = 'slug'
     template_name = 'shop/task/update_task.html'
     success_url = reverse_lazy('shop:list_task_my')
+
+class ViewsHTMXListMyTask(ListView):
+    template_name = "templates_htmx/_task_snippet.html"
+    model = Task
+    context_object_name = 'task'
+    def get_queryset(self):
+            return Task.objects.filter(user=self.request.user)
+class ViewsHTMXListMyService(ListView):
+    template_name = "templates_htmx/_service_snippet.html"
+    model = Service
+    context_object_name = 'service'
+    def get_queryset(self):
+            return Service.objects.filter(user=self.request.user)

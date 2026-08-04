@@ -1,0 +1,19 @@
+<div class="container border border-white p-0 overflow-auto" style="height: 200px;">
+    {% for sv in service %}
+       
+        <div class="d-flex justify-content-between align-items-center bg-dark text-light border-secondary p-3 mb-2 rounded-3">
+            
+           
+            <h5 class="mb-0 me-3">{{ sv.title|truncatechars:30}}</h5>
+            
+           
+            <div class="btn-group">
+                <a href="{% url 'shop:detail_service' slug=sv.slug %}" class="btn btn-light btn-sm">🔍</a>
+                <a href="{% url 'service_offers_task' service_slug=sv.slug %}" class="btn btn-primary btn-sm">✉</a>
+                <a href="{% url 'shop:update_service' slug=sv.slug %}" class="btn btn-warning btn-sm">🛠</a> 
+            </div>
+        
+        </div>
+
+    {% endfor %}
+</div>

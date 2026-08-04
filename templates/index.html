@@ -45,19 +45,41 @@
 <div style="height: 70px;"></div>
 
     {% block content %}
-    <h1 class="text-light mt-4" >Главная</h1>
+    <h1 class="text-center mt-4" >Главная</h1>
+
     <div >
         <div style="background-image: url('{% static 'images/background-stripes-aside-tear-2.png' %}');
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: cover;
-                min-height: 200px;"> 
+                min-height: 200px;"
+                > 
         </div>
+        
+        {% if  user.is_authenticated%}
+        <div >
+            <div style="display: flex; justify-content: space-around;">
+                <h2>
+                    Ваши заказы
+                </h2>
+                
+                <h2>
+                    Ваши услуги
+                </h2>
+            </div>
+            <div style="display: flex; justify-content: space-around;">
+                <div class="w-50"    hx-get="{% url 'shop:list_htmx_task' %}"
+                        hx-trigger="load" 
+                     hx-swap="innerHTML" style="margin-right: 10px;"></div>
 
-        <div class="text-center">
-            <h2>Популярные рубрики</h2>
+
+
+                <div class="w-50"    hx-get="{% url 'shop:list_htmx_service' %}"
+                        hx-trigger="load" 
+                     hx-swap="innerHTML"></div>
+            </div>
         </div>
-
+        {% endif %}
         <div class="">
             <hr>
             <div class="accordion accordion-flush" id="accordionExample">
