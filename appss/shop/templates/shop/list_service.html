@@ -6,6 +6,7 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             {% for serv in service %}
+             {% if serv.user_id != request.user.id %}
                 <div class="col">
                     <div class="text-light card bg-dark border-secondary h-100">
                         <div class="card-body d-flex flex-column">
@@ -20,6 +21,22 @@
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <div class="col">
+                    <div class="text-light card bg-dark border-secondary h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ serv.title }}</h5>
+                            <p class="card-text flex-grow-1">
+                                {{ serv.description|truncatechars:100 }}
+                                {% if serv.description|length > 100 %}
+                                    <a href="{% url 'shop:detail_service' serv.pk %}" class="text-info">...читать далее</a>
+                                {% endif %}
+                            </p>
+                            <a href="{% url 'shop:detail_service' slug=serv.slug %}" class="btn btn-primary mt-auto disabled">Это ваша услуга</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

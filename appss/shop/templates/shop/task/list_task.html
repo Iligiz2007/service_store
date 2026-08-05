@@ -7,6 +7,7 @@
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         {% for tk in task %}
+            {% if tk.user_id != request.user.id %}
             <div class="col">
                 <div class="text-light card bg-dark border-secondary h-100">
                     <div class="card-body d-flex flex-column">
@@ -21,6 +22,22 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="col">
+                <div class="text-light card bg-dark border-secondary h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ tk.title|truncatechars:50 }}</h5>
+                        <p class="card-text flex-grow-1">
+                            {{ tk.description|truncatechars:100 }}
+                            {% if tk.description|length > 100 %}
+                                <a href="{% url 'shop:detail_task' tk.pk %}" class="text-info disabled">...читать далее</a>
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'shop:detail_task' slug=tk.slug %}" class="btn btn-primary mt-auto disabled">Это ваша задача</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
