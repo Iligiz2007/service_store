@@ -30,6 +30,8 @@ class ViewsListService(ListView):
     model = Service
     template_name = "shop/list_service.html"
     context_object_name = "service"
+    
+
 
 class ViewsUserListService(ListView):
     model = Service

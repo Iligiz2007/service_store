@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block title %}Регистрация{% endblock title %}
-
+{% load static %}
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -32,8 +32,12 @@
                             <label class="form-label">Подтверждение пароля</label>
                             <input type="password" name="password2" class="form-control" placeholder="Введите пароль еще раз">
                         </div>
+                        <!-- Можно сделать спиок кнопок через boots -->
+                        <div style="display: flex; justify-content: center;">
+                            <a href="#"><img src="{% static 'images\free-icon-search-281781.png' %}" alt="Поиск" style="height: 5rem; box-sizing: border-box; margin: 1rem;"></a> 
+                            <a href="#"><img src="{% static 'images\free-icon-github-logo-25231.png' %}" alt="Поиск" style="height: 5rem; box-sizing: border-box; margin: 1rem;"></a> 
 
-
+                        </div>
                         <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
                     </form>
                 </div>
