@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'appss.shop',
     'appss.user',
     'appss.chat',
+    'social_django',
 
 ]
 
@@ -60,7 +61,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
 
+    'django.contrib.auth.backends.ModelBackend',
+)
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
@@ -73,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -153,3 +161,8 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 SITE_URL = 'http://localhost:8000'
 CELERY_TASK_ALWAYS_EAGER = True
+
+
+#Sign in with GitHub
+SOCIAL_AUTH_GITHUB_KEY = os.environ["SOCIAL_AUTH_GITHUB_KEY"]
+SOCIAL_AUTH_GITHUB_SECRET = os.environ["SOCIAL_AUTH_GITHUB_SECRET"]

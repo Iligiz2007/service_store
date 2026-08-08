@@ -32,14 +32,26 @@
                             <label class="form-label">Подтверждение пароля</label>
                             <input type="password" name="password2" class="form-control" placeholder="Введите пароль еще раз">
                         </div>
+                           <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                    </form>
+
+                     
                         <!-- Можно сделать спиок кнопок через boots -->
                         <div style="display: flex; justify-content: center;">
+                            <form action="{% url 'social:begin' 'github' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
                             <a href="#"><img src="{% static 'images\free-icon-search-281781.png' %}" alt="Поиск" style="height: 5rem; box-sizing: border-box; margin: 1rem;"></a> 
-                            <a href="#"><img src="{% static 'images\free-icon-github-logo-25231.png' %}" alt="Поиск" style="height: 5rem; box-sizing: border-box; margin: 1rem;"></a> 
+                           <!-- Вход через GitHub -->
+                        <a href="#" onclick="this.closest('form').submit(); return false;">
+                            <img src="{% static 'images/free-icon-github-logo-25231.png' %}"
+                                alt="GitHub"
+                                style="height: 5rem; box-sizing: border-box; margin: 1rem;">
+                                </form>   
+                        </a>
+                                    
 
                         </div>
-                        <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
-                    </form>
+                     
                 </div>
             </div>
             

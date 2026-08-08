@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block title %}Login{% endblock title %}
-
+{% load static %}
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -25,7 +25,20 @@
 
                         <button type="submit" class="btn btn-success w-100">Войти</button>
                     </form>
-                    
+                    <div style="display: flex; justify-content: center;">
+                            <form action="{% url 'social:begin' 'github' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                            <a href="#"><img src="{% static 'images\free-icon-search-281781.png' %}" alt="Поиск" style="height: 5rem; box-sizing: border-box; margin: 1rem;"></a> 
+                           <!-- Вход через GitHub -->
+                        <a href="#" onclick="this.closest('form').submit(); return false;">
+                            <img src="{% static 'images/free-icon-github-logo-25231.png' %}"
+                                alt="GitHub"
+                                style="height: 5rem; box-sizing: border-box; margin: 1rem;">
+                                </form>   
+                        </a>
+                                    
+
+                        </div>
                     <div class="text-center mt-3">
                         <a href="{% url 'register' %}" class="text-light">Нет аккаунта? Зарегистрируйтесь</a>
                     </div>
